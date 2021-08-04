@@ -77,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
             new Thread(solveBoardThread).start();
         } else {
             solveBTN.setText(getString(R.string.Solve));
-            gameBoardSolver.resetBoard();
+            gameBoardSolver.generateNewBoard(gameBoard, 17);
         }
         gameBoard.invalidate();
     }

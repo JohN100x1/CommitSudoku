@@ -2,7 +2,9 @@ package com.example.commitsudoku;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class SudokuSolve {
     private static int selected_row;
@@ -78,13 +80,13 @@ public class SudokuSolve {
         }
 
         // Permutation List
-        List<Integer> digits = new ArrayList<>();
-        for (int d=1; d <10; d++) {
-            digits.add(d);
+        List<Integer> dList = new ArrayList<>();
+        for (int i=1; i<10; i++){
+            dList.add(i);
         }
-        Collections.shuffle(digits);
+        Collections.shuffle(dList);
 
-        for (int i: digits){
+        for (int i: dList){
             this.board[row][col] = i;
             display.invalidate();
             if (check(row, col)){
@@ -104,6 +106,29 @@ public class SudokuSolve {
             }
         }
         this.emptyBoxIndex = new ArrayList<>();
+    }
+
+    public void generateNewBoard(SudokuBoard display, int numClues){
+        resetBoard();
+        solve(display);
+
+        // Get Random clue Co-ordinates
+        List<Integer> cList = new ArrayList<>();
+        for (int i=1; i<81; i++){
+            cList.add(i);
+        }
+        Collections.shuffle(cList);
+        Set<Integer> clues = new HashSet<Integer>();
+        for(int i = 0; i < numClues; i++){
+            clues.add(cList.get(i));
+        }
+        for (int r=0; r<9; r++){
+            for (int c=0; c<9; c++){
+                if (!clues.contains(9*r+c)){
+                    this.board[r][c] = 0;
+                }
+            }
+        }
     }
 
     public void setNumberPos(int num){

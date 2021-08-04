@@ -67,7 +67,6 @@ public class SudokuBoard extends View {
         boardColourPaint.setColor(boardColour);
         boardColourPaint.setAntiAlias(true);
 
-
         cellFillColourPaint.setStyle(Paint.Style.FILL);
         cellFillColourPaint.setColor(cellFillColour);
         cellFillColourPaint.setAntiAlias(true);
