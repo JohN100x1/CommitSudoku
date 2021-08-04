@@ -14,13 +14,14 @@
         custom:cellFillColour="#ADD8E6"
         custom:cellsHighlightColour="#DAEDF4"
         custom:letterColour="#000000"
-        custom:letterColourSolve="#90EE90"
+        custom:letterColourSolve="#558F55"
         custom:layout_constraintBottom_toBottomOf="parent"
         custom:layout_constraintEnd_toEndOf="parent"
         custom:layout_constraintStart_toStartOf="parent"
-        custom:layout_constraintTop_toTopOf="parent"></com.example.commitsudoku.SudokuBoard>
+        custom:layout_constraintTop_toTopOf="parent"/>
 
     <LinearLayout
+        android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -34,7 +35,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:onClick="DigitPress1"
+            android:onClick="digitPress1"
             android:text="@string/digit1"
             android:textColor="@color/black"
             android:textSize="24sp" />
@@ -45,7 +46,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:onClick="DigitPress2"
+            android:onClick="digitPress2"
             android:text="@string/digit2"
             android:textColor="@color/black"
             android:textSize="24sp" />
@@ -56,7 +57,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:onClick="DigitPress3"
+            android:onClick="digitPress3"
             android:text="@string/digit3"
             android:textColor="@color/black"
             android:textSize="24sp" />
@@ -67,7 +68,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:onClick="DigitPress4"
+            android:onClick="digitPress4"
             android:text="@string/digit4"
             android:textColor="@color/black"
             android:textSize="24sp" />
@@ -78,7 +79,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:onClick="DigitPress5"
+            android:onClick="digitPress5"
             android:text="@string/digit5"
             android:textColor="@color/black"
             android:textSize="24sp" />
@@ -89,7 +90,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:onClick="DigitPress6"
+            android:onClick="digitPress6"
             android:text="@string/digit6"
             android:textColor="@color/black"
             android:textSize="24sp" />
@@ -100,7 +101,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:onClick="DigitPress7"
+            android:onClick="digitPress7"
             android:text="@string/digit7"
             android:textColor="@color/black"
             android:textSize="24sp" />
@@ -111,7 +112,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:onClick="DigitPress8"
+            android:onClick="digitPress8"
             android:text="@string/digit8"
             android:textColor="@color/black"
             android:textSize="24sp" />
@@ -122,10 +123,23 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:onClick="DigitPress9"
+            android:onClick="digitPress9"
             android:text="@string/digit9"
             android:textColor="@color/black"
             android:textSize="24sp" />
     </LinearLayout>
+
+    <Button
+        android:id="@+id/solveButton"
+        android:layout_width="125dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/solve_btn"
+        android:onClick="solve"
+        android:text="@string/Solve"
+        android:textSize="18sp"
+        custom:layout_constraintBottom_toBottomOf="parent"
+        custom:layout_constraintEnd_toEndOf="parent"
+        custom:layout_constraintStart_toStartOf="parent"
+        custom:layout_constraintTop_toBottomOf="@+id/linearLayout" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -9,4 +9,7 @@
     <string name="digit7">7</string>
     <string name="digit8">8</string>
     <string name="digit9">9</string>
+
+    <string name="New">New</string>
+    <string name="Solve">Solve</string>
 </resources>

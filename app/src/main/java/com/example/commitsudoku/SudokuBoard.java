@@ -79,6 +79,7 @@ public class SudokuBoard extends View {
         letterPaint.setStyle(Paint.Style.FILL);
         letterPaint.setAntiAlias(true);
         letterPaint.setColor(letterColour);
+        letterPaint.setTextSize(cellSize);
 
         colourCell(canvas, solver.getSelectedRow(), solver.getSelectedColumn());
         canvas.drawRect(0,0,getWidth(), getHeight(), boardColourPaint);
@@ -113,7 +114,7 @@ public class SudokuBoard extends View {
                     width = letterPaint.measureText(text);
                     height = letterPaintBounds.height();
 
-                    canvas.drawText(text, (c*cellSize) + (cellSize - width)/2, (r+1)*cellSize - (cellSize - height)/2, letterPaint);
+                    canvas.drawText(text, (c*cellSize) + (cellSize - width)/2, offsetY+(r+1)*cellSize - (cellSize - height)/2, letterPaint);
                 }
             }
         }
@@ -130,15 +131,16 @@ public class SudokuBoard extends View {
             width = letterPaint.measureText(text);
             height = letterPaintBounds.height();
 
-            canvas.drawText(text, (c*cellSize) + (cellSize - width)/2, (r+1)*cellSize - (cellSize - height)/2, letterPaint);
+            canvas.drawText(text, (c*cellSize) + (cellSize - width)/2, offsetY+(r+1)*cellSize - (cellSize - height)/2, letterPaint);
         }
     }
 
     private void colourCell(Canvas canvas, int r, int c){
         if (r >= 1 && r <= 9 && c >= 1 && c <= 9){
+            int[] box = getBox(r, c);
             canvas.drawRect((c-1)*cellSize, offsetY, c*cellSize, offsetY+cellSize*9, cellsHighlightColourPaint);
             canvas.drawRect(0, offsetY+(r-1)*cellSize, cellSize*9, offsetY+r*cellSize, cellsHighlightColourPaint);
-            canvas.drawRect((3*((c-1)/3))*cellSize, offsetY+(3*((r-1)/3))*cellSize, (3*((c+2)/3))*cellSize, offsetY+(3*((r+2)/3))*cellSize, cellsHighlightColourPaint);
+            canvas.drawRect(box[0]*cellSize, offsetY+box[1]*cellSize, box[2]*cellSize, offsetY+box[3]*cellSize, cellsHighlightColourPaint);
             canvas.drawRect((c-1)*cellSize, offsetY+(r-1)*cellSize, c*cellSize, offsetY+r*cellSize, cellFillColourPaint);
         }
         invalidate();
@@ -173,6 +175,15 @@ public class SudokuBoard extends View {
             }
             canvas.drawLine(0, offsetY + cellSize * r, getWidth(), offsetY + cellSize * r, boardColourPaint);
         }
+    }
+
+    private int[] getBox(int r, int c){
+        int[] box = new int[4];
+        box[0] = 3*((c-1)/3);
+        box[1] = 3*((r-1)/3);
+        box[2] = 3*((c+2)/3);
+        box[3] = 3*((r+2)/3);
+        return box;
     }
 
     public SudokuSolve getSolver(){
