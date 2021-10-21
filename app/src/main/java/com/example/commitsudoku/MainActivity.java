@@ -2,11 +2,18 @@ package com.example.commitsudoku;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.media.AudioAttributes;
+import android.media.AudioManager;
+import android.media.SoundPool;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity {
+    private SoundPool soundPool;
+    private int boardHighlightSfx;
+
     private SudokuBoard gameBoard;
     private SudokuSolve gameBoardSolver;
     private Button solveBTN;
@@ -20,6 +27,31 @@ public class MainActivity extends AppCompatActivity {
         gameBoardSolver = gameBoard.getSolver();
 
         solveBTN = findViewById(R.id.solveButton);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
+            AudioAttributes audioAttributes = new AudioAttributes.Builder()
+                    .setUsage(AudioAttributes.USAGE_GAME)
+                    .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+                    .build();
+            soundPool = new SoundPool.Builder()
+                    .setMaxStreams(1)
+                    .setAudioAttributes(audioAttributes)
+                    .build();
+        } else {
+            soundPool = new SoundPool(1, AudioManager.STREAM_MUSIC, 0);
+        }
+        boardHighlightSfx = soundPool.load(this, R.raw.board_highlight_sfx, 1);
+    }
+
+    @Override
+    protected void onDestroy(){
+        super.onDestroy();
+        soundPool.release();
+        soundPool = null;
+    }
+
+    public void boardPress(){
+        soundPool.play(boardHighlightSfx, 1, 1, 0, 0, 1);
     }
 
     public void digitPress1(View view){

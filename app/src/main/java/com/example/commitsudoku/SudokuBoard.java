@@ -1,5 +1,6 @@
 package com.example.commitsudoku;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
@@ -14,6 +15,8 @@ import androidx.annotation.Nullable;
 import java.util.ArrayList;
 
 public class SudokuBoard extends View {
+    private MainActivity activity;
+
     private final int boardColour;
     private final int cellFillColour;
     private final int cellsHighlightColour;
@@ -34,6 +37,11 @@ public class SudokuBoard extends View {
 
     public SudokuBoard(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
+        try {
+            activity = (MainActivity) context;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         TypedArray a = context.getTheme().obtainStyledAttributes(attrs, R.styleable.SudokuBoard, 0, 0);
 
@@ -46,7 +54,6 @@ public class SudokuBoard extends View {
         } finally {
             a.recycle();
         }
-
     }
 
     @Override
@@ -93,8 +100,11 @@ public class SudokuBoard extends View {
         float y = event.getY();
         int action = event.getAction();
         if (action == MotionEvent.ACTION_DOWN){
-            solver.setSelectedRow((int) Math.ceil((-offsetY+y)/cellSize));
-            solver.setSelectedColumn((int) Math.ceil(x/cellSize));
+            activity.boardPress();
+            int row = (int) Math.ceil((-offsetY+y)/cellSize);
+            int col = (int) Math.ceil(x/cellSize);
+            solver.setSelectedRow(row);
+            solver.setSelectedColumn(col);
             isValid = true;
         } else {
             isValid = false;
@@ -135,7 +145,7 @@ public class SudokuBoard extends View {
     }
 
     private void colourCell(Canvas canvas, int r, int c){
-        if (r >= 1 && r <= 9 && c >= 1 && c <= 9){
+        if (solver.isValidPos(r, c)){
             int[] box = getBox(r, c);
             canvas.drawRect((c-1)*cellSize, offsetY, c*cellSize, offsetY+cellSize*9, cellsHighlightColourPaint);
             canvas.drawRect(0, offsetY+(r-1)*cellSize, cellSize*9, offsetY+r*cellSize, cellsHighlightColourPaint);

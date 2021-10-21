@@ -131,8 +131,16 @@ public class SudokuSolve {
         }
     }
 
+    public boolean isValidPos(int r, int c){
+        if (r >= 1 && r <= 9 && c >= 1 && c <= 9){
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     public void setNumberPos(int num){
-        if (selected_row >= 1 && selected_row <= 9 && selected_column >= 1 && selected_column <= 9){
+        if (isValidPos(selected_row, selected_column)){
             if (this.board[selected_row-1][selected_column-1] == num){
                 this.board[selected_row-1][selected_column-1] = 0;
             } else {
