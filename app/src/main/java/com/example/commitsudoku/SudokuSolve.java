@@ -11,6 +11,8 @@ public class SudokuSolve {
     private static int selected_column;
 
     int [][] board;
+    int [][] solvedBoard;
+    boolean [][] editBoard;
     ArrayList<ArrayList<Object>> emptyBoxIndex;
 
     SudokuSolve(){
@@ -18,10 +20,14 @@ public class SudokuSolve {
         selected_column = -1;
 
         board = new int[9][9];
+        solvedBoard = new int[9][9];
+        editBoard = new boolean[9][9];
 
         for (int r=0; r<9; r++){
             for (int c=0; c<9; c++){
                 board[r][c] = 0;
+                solvedBoard[r][c] = 0;
+                editBoard[r][c] = true;
             }
         }
 
@@ -40,7 +46,7 @@ public class SudokuSolve {
         }
     }
 
-    private boolean check(int row, int col){
+    public boolean check(int row, int col){
         if (this.board[row][col] > 0){
             for (int i=0; i<9; i++){
                 if (this.board[i][col] == this.board[row][col] && row != i){
@@ -75,7 +81,7 @@ public class SudokuSolve {
                 }
             }
         }
-        if (row == -1 || col == -1){
+        if (row == -1){
             return true;
         }
 
@@ -118,29 +124,38 @@ public class SudokuSolve {
             cList.add(i);
         }
         Collections.shuffle(cList);
-        Set<Integer> clues = new HashSet<Integer>();
+        Set<Integer> clues = new HashSet<>();
         for(int i = 0; i < numClues; i++){
             clues.add(cList.get(i));
         }
         for (int r=0; r<9; r++){
             for (int c=0; c<9; c++){
+                this.solvedBoard[r][c] = this.board[r][c];
                 if (!clues.contains(9*r+c)){
                     this.board[r][c] = 0;
+                    this.editBoard[r][c] = true;
+                } else {
+                    this.editBoard[r][c] = false;
                 }
             }
         }
     }
 
-    public boolean isValidPos(int r, int c){
-        if (r >= 1 && r <= 9 && c >= 1 && c <= 9){
-            return true;
-        } else {
-            return false;
+    public void revealBoard(){
+        for (int r=0; r<9; r++){
+            System.arraycopy(this.solvedBoard[r], 0, this.board[r], 0, 9);
         }
     }
 
+    public boolean isValidPos(int r, int c){
+        return r >= 1 && r <= 9 && c >= 1 && c <= 9;
+    }
+    public boolean isEditable(int r, int c){
+        return this.editBoard[r][c];
+    }
+
     public void setNumberPos(int num){
-        if (isValidPos(selected_row, selected_column)){
+        if (isValidPos(selected_row, selected_column) && editBoard[selected_row-1][selected_column-1]){
             if (this.board[selected_row-1][selected_column-1] == num){
                 this.board[selected_row-1][selected_column-1] = 0;
             } else {

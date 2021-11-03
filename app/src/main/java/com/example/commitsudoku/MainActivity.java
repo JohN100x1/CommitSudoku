@@ -25,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
 
         gameBoard = findViewById(R.id.SudokuBoard);
         gameBoardSolver = gameBoard.getSolver();
+        gameBoardSolver.generateNewBoard(gameBoard, 17);
 
         solveBTN = findViewById(R.id.solveButton);
 
@@ -117,7 +118,7 @@ public class MainActivity extends AppCompatActivity {
     class SolveBoardThread implements Runnable{
         @Override
         public void run() {
-            gameBoardSolver.solve(gameBoard);
+            gameBoardSolver.revealBoard();
         }
     }
 }

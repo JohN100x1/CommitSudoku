@@ -1,6 +1,5 @@
 package com.example.commitsudoku;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
@@ -26,6 +25,8 @@ public class SudokuBoard extends View {
 
     private final int letterColour;
     private final int letterColourSolve;
+    private final int letterColourWrong;
+    private final int letterColourWrongEditable;
 
     private final Paint letterPaint = new Paint();
     private final Rect letterPaintBounds = new Rect();
@@ -51,6 +52,8 @@ public class SudokuBoard extends View {
             cellsHighlightColour = a.getInteger(R.styleable.SudokuBoard_cellsHighlightColour, 0);
             letterColour = a.getInteger(R.styleable.SudokuBoard_letterColour, 0);
             letterColourSolve = a.getInteger(R.styleable.SudokuBoard_letterColourSolve, 0);
+            letterColourWrong = a.getInteger(R.styleable.SudokuBoard_letterColourWrong, 0);
+            letterColourWrongEditable = a.getInteger(R.styleable.SudokuBoard_letterColourWrongEditable, 0);
         } finally {
             a.recycle();
         }
@@ -123,6 +126,13 @@ public class SudokuBoard extends View {
                     width = letterPaint.measureText(text);
                     height = letterPaintBounds.height();
 
+                    if (solver.check(r, c)){
+                        letterPaint.setColor(letterColour);
+                    } else if (solver.isEditable(r, c)) {
+                        letterPaint.setColor(letterColourWrongEditable);
+                    } else {
+                        letterPaint.setColor(letterColourWrong);
+                    }
                     canvas.drawText(text, (c*cellSize) + (cellSize - width)/2, offsetY+(r+1)*cellSize - (cellSize - height)/2, letterPaint);
                 }
             }

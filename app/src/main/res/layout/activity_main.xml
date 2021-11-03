@@ -15,6 +15,8 @@
         custom:cellsHighlightColour="#DAEDF4"
         custom:letterColour="#000000"
         custom:letterColourSolve="#566D75"
+        custom:letterColourWrong="#7F0000"
+        custom:letterColourWrongEditable="#FF7F7F"
         custom:layout_constraintBottom_toBottomOf="parent"
         custom:layout_constraintEnd_toEndOf="parent"
         custom:layout_constraintStart_toStartOf="parent"
